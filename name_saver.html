@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Saver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        #nameForm {
+            margin-bottom: 20px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Enter Your Name</h1>
+    <form id="nameForm">
+        <input type="text" id="nameInput" placeholder="Your Name" required>
+        <button type="submit">Save</button>
+    </form>
+    <h2>Names</h2>
+    <ul id="namesList"></ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            // Load existing names from local storage
+            const names = JSON.parse(localStorage.getItem('names')) || [];
+            const namesList = document.getElementById('namesList');
+            names.forEach(name => {
+                const li = document.createElement('li');
+                li.textContent = name;
+                namesList.appendChild(li);
+            });
+
+            // Handle form submission
+            document.getElementById('nameForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const name = document.getElementById('nameInput').value;
+                if (name) {
+                    names.push(name);
+                    localStorage.setItem('names', JSON.stringify(names));
+
+                    const li = document.createElement('li');
+                    li.textContent = name;
+                    namesList.appendChild(li);
+
+                    document.getElementById('nameInput').value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
